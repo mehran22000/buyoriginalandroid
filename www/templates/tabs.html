@@ -1,26 +1,28 @@
-<!-- 
-  Create tabs with an icon and label, using the tabs-positive style. 
-  Each tab's child <ion-nav-view> directive will have its own 
-  navigation history that also transitions its views in and out.
+<!--
+Create tabs with an icon and label, using the tabs-positive style.
+Each tab's child <ion-nav-view> directive will have its own
+navigation history that also transitions its views in and out.
 -->
-<ion-tabs class="tabs-icon-top">
+<ion-tabs class="tabs-icon-top tabs-color-active-positive">
 
-
-  <!-- Dashboard Tab -->
-  <ion-tab title="Dashboard" icon="icon ion-home" href="#/tab/dash">
-    <ion-nav-view name="tab-dash"></ion-nav-view>
+  <!-- Search Tab -->
+  <ion-tab title="جستجو" icon-off="ion-ios-search" icon-on="ion-ios-search-strong" href="#/tab/search">
+    <ion-nav-view name="tab-search"></ion-nav-view>
+  </ion-tab>
+   
+  <!-- Near Me Tab -->
+  <ion-tab title="نزدیک من" icon-off="ion-ios-location-outline" icon-on="ion-ios-location" href="#/tab/chats">
+    <ion-nav-view name="tab-chats"></ion-nav-view>
   </ion-tab>
 
-
-  <!-- Friends Tab -->
-  <ion-tab title="Friends" icon="icon ion-heart" href="#/tab/friends">
-    <ion-nav-view name="tab-friends"></ion-nav-view>
-  </ion-tab>
-
-
-  <!-- Account Tab -->
-  <ion-tab title="Account" icon="icon ion-gear-b" href="#/tab/account">
+  <!-- Discounts Tab -->
+  <ion-tab title="تخفیف ها" icon-off="ion-ios-pricetags-outline" icon-on="ion-ios-pricetags" href="#/tab/account">
     <ion-nav-view name="tab-account"></ion-nav-view>
+  </ion-tab>
+  
+  <!-- Profile Tab -->
+  <ion-tab title="فروشگاه من" icon-off="ion-ios-home" icon-on="ion-ios-home-outline" href="#/tab/account">
+    <ion-nav-view name="tab-chats"></ion-nav-view>
   </ion-tab>
 
 
