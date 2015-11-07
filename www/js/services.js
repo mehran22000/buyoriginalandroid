@@ -1,26 +1,61 @@
 angular.module('starter.services', [])
 
-/**
- * A simple example service that returns some data.
- */
-.factory('Friends', function() {
+.factory('Cities', function() {
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
-  var friends = [
-    { id: 0, name: 'Scruff McGruff' },
-    { id: 1, name: 'G.I. Joe' },
-    { id: 2, name: 'Miss Frizzle' },
-    { id: 3, name: 'Ash Ketchum' }
-  ];
-
+  var cities = [{
+    id: 0,
+    cityName: 'Tehran',
+    areaCode: '021',
+    cityNameFa:'تهران',   
+    imageName: 'pics/tehran.png'
+  }, {
+    id: 1,
+    cityName: 'Isfahan',
+    areaCode: '031',
+    cityNameFa:'اصفهان',   
+    imageName: 'pics/isfahan.png'
+  }, {
+    id: 2,
+    cityName: 'Kish',
+    areaCode: '076',
+    cityNameFa:'کیش',   
+    imageName: 'pics/kish.png'
+  }, {
+    id: 3,
+    cityName: 'Shiraz',
+    areaCode: '071',
+    cityNameFa:'شیراز',   
+    imageName: 'pics/shiraz.png'
+  }, {
+    id: 4,
+    cityName: 'Mashhad',
+    areaCode: '051',
+    cityNameFa:'مشهد',   
+    imageName: 'pics/mashhad.png'
+  }, {
+    id: 5,
+    cityName: 'Tabriz',
+    areaCode: '041',
+    cityNameFa:'تبریز',   
+    imageName: 'pics/tabriz.png'
+  }];
+  
   return {
     all: function() {
-      return friends;
+      return cities;
     },
-    get: function(friendId) {
-      // Simple index lookup
-      return friends[friendId];
+    remove: function(city) {
+      cities.splice(cities.indexOf(city), 1);
+    },
+    get: function(cityId) {
+      for (var i = 0; i < cities.length; i++) {
+        if (cities[i].id === parseInt(cityId)) {
+          return cities[i];
+        }
+      }
+      return null;
     }
-  }
+  };
 });
