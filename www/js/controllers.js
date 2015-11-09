@@ -14,12 +14,29 @@ angular.module('starter.controllers', [])
   $scope.cities = Cities.all();
   $scope.remove = function(city) {
     Cities.remove(city);
-  };
+  };  
 })
+
+
+.controller('CategoryListCtrl', function($scope, $http, $stateParams) {
+ 
+  console.log('URL', 'https://aslbekhar.herokuapp.com/stores/storelist/city/'+ $stateParams.cityAreaCode);
+  $http.get('https://aslbekhar.herokuapp.com/stores/storelist/city/'+$stateParams.cityAreaCode).then(function(resp) {
+    console.log('Success', resp);
+    $scope.stores = resp.data;
+  }, function(err) {
+    console.error('ERR', err);
+    // err.status will contain the status code
+  })
+})
+
+
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
   $scope.chat = Chats.get($stateParams.chatId);
 })
+
+
 
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {
