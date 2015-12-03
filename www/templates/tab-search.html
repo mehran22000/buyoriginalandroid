@@ -1,14 +1,15 @@
 <ion-view view-title="شهر مورد نظر را انتخاب نمایید">
   <ion-content>
-    <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="city in cities" type="item-text-wrap" href="#/tab/category/{{city.areaCode}}">
+  <label class="item item-input">
+  		<i class="icon ion-search placeholder-icon"></i>
+  		<input type="search" placeholder="Search" ng-model="search" ng-change="filter(search)">
+   </label>
+   <ion-list>
+        <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="city in cities" type="item-text-wrap" href="#/tab/category/{{city.areaCode}}">
         <img ng-src="{{city.imageName}}">
         <h2>{{city.cityNameFa}}</h2>
         <p>{{city.cityName}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
-	    <ion-option-button class="button-assertive" ng-click="remove(chat)">
-          Delete
-        </ion-option-button>
       </ion-item>
     </ion-list>
   </ion-content>

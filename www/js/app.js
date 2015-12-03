@@ -23,10 +23,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
   $stateProvider
 
   // setup an abstract state for the tabs directive
@@ -37,23 +33,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   })
 
   // Each tab has its own nav history stack:
-
-  .state('tab.dash', {
-    url: '/dash',
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
-      }
-    }
-  })
-
    .state('tab.search', {
       url: '/search',
       views: {
         'tab-search': {
           templateUrl: 'templates/tab-search.html',
-          controller: 'SearchCtrl'
+          controller: 'CityCtrl'
         }
       }
     })
@@ -63,7 +48,27 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       views: {
         'tab-search': {
           templateUrl: 'templates/category-list.html',
-          controller: 'CategoryListCtrl'
+          controller: 'CategoryCtrl'
+        }
+      }
+   })
+   
+   .state('tab.search-brand', {
+      url: '/brands/:catIndex',
+      views: {
+        'tab-search': {
+          templateUrl: 'templates/brand-list.html',
+          controller: 'BrandCtrl'
+        }
+      }
+   })
+   
+   .state('tab.search-store', {
+      url: '/stores/:brandIndex',
+      views: {
+        'tab-search': {
+          templateUrl: 'templates/store-list.html',
+          controller: 'StoreCtrl'
         }
       }
    })
@@ -76,9 +81,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         controller: 'AccountCtrl'
       }
     }
-  });
+  })
+  
+  
+  .state('tab.search-store-location', {
+      url: '/stores/map/:lat/:lon',
+      views: {
+        'tab-search': {
+          templateUrl: 'templates/store-map.html',
+          controller: 'MapCtrl'
+        }
+      }
+   })
+  ;
+  
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/tab/search');
 
 });
 

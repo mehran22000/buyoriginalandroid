@@ -1,0 +1,21 @@
+<ion-view view-title="فروشگاهها">
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="store in stores track by $index" type="item-text-wrap">
+        	<img ng-src="pics/verified.png" ng-if="store.sVerified === 'YES'">  
+        	<div class="text text-right">
+        	<h2> {{store.sName}} </h2>
+        	<p>  {{store.sHours}}:ساعات کار </p>
+        	<p>  {{store.sTel1}}:تلفن </p>
+        	<p>  {{store.sAddress}} </p>
+        	<h2> </h2>
+        	<div class="button-bar">
+  				<a class="button button-map ion-ios-location" href="#/tab/stores/map/{{store.sLat}}/{{store.sLong}}"> نقشه </a>
+  				<a class="button button-contact ion-ios-telephone" href="tel:{{store.sAreaCode}}{{store.sTel1}}"> تماس</a>
+  			</div>
+        	</div>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
