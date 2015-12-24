@@ -1,0 +1,24 @@
+<ion-view view-title="تخفیف ها">
+  <ion-content>
+  <label class="item item-input">
+  		<i class="icon ion-search placeholder-icon"></i>
+  		<input type="search" placeholder="Search" ng-model="search" ng-change="filter(search)">
+   </label>
+   <div class="item range">
+  		0
+  		<input type="range" name="volume" min="0" max="15" ng-model="distance" ng-change="updateStores(distance)">
+  		15 Km
+  </div>
+   <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="store in stores track by $index" type="item-text-wrap" href="#/tab/deals/store/{{$index}}">
+        <img ng-src="pics/logos/{{store.bName.toLowerCase()| removeSpaces}}.png">
+       		 <div class="text text-right">
+        	 <h2> {{store.bName}} </h2>
+       		 <p> {{store.bCategory}} </p>
+       		 <p> {{store.distance}} </p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+	    
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

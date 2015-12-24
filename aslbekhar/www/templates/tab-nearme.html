@@ -1,0 +1,24 @@
+<ion-view view-title="برندهای اطراف من">
+  <ion-content>
+  <div class="item range">
+  		0
+  		<input type="range" name="volume" min="0" max="5" ng-model="distance" ng-change="updateStores(distance)">
+  		5 Km
+  </div>
+
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="store in stores track by $index" type="item-text-wrap" href="#/tab/nearme/store/{{$index}}">
+        <img ng-src="pics/logos/{{store.bName.toLowerCase()| removeSpaces}}.png">
+       		 <div class="text text-right">
+        	 <h2> {{store.bName}} </h2>
+       		 <p> {{store.bCategory}} </p>
+       		 <p> {{store.distance}} </p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+	    
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
+
+
+

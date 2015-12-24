@@ -45,7 +45,11 @@ angular.module('starter.services', [])
 	
 	var categories = [];
 	var catStores = {};
-	
+	var availableCat = [{nameFa:'پوشاک بانوان',nameEn:'dress_women'},{nameFa:'پوشاک',nameEn:'dress'},{nameFa:'ساعت',nameEn:'watch'},{nameFa:'موبایل',nameEn:'mobile'},
+						{nameFa:'چرم',nameEn:'leather'},{nameFa:'پوشاک ورزشی',nameEn:'dress_sport'},{nameFa:'کفش',nameEn:'shoes'},{nameFa:'آرایش و زیبایی',nameEn:'makeup'},
+						{nameFa:'عطر و ادکلن',nameEn:'perfume'},{nameFa:'پوشاک آقایان',nameEn:'dress_men'},{nameFa:'لوازم و پوشاک کودک',nameEn:'baby'},
+						{nameFa:'لباس عروس',nameEn:'wedding'}];
+						
     var getCategories = function(){
       return categories;
     };
@@ -54,6 +58,16 @@ angular.module('starter.services', [])
       return catStores;
     };
     
+    var getNameEn = function(nameFa) {
+    	var nameEn = 'general';
+		angular.forEach(availableCat,function(cat,index){
+			if (cat.nameFa===nameFa){
+				nameEn =  cat.nameEn;
+				}
+			});
+		return nameEn;
+	};
+       
 	return {
 		all: function (stores) {
 			var catCounter = 0;
@@ -62,7 +76,8 @@ angular.module('starter.services', [])
         		var category = obj.bCategory;
         		if (catStores[category]== null){
         			catStores[category] = [obj];
-        			categories.push({'name':category,'index':catCounter});
+        			var nameEn = getNameEn(category);
+        			categories.push({'name':category,'index':catCounter,'nameEn':nameEn});
         			catCounter = catCounter + 1;	
         		}
         		else {
