@@ -27,16 +27,35 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('CategoryCtrl', function($scope, $http, $stateParams, StoreFetcher, CategoryFactory) {
+.controller('CategoryCtrl', function($scope, $http, $stateParams, StoreFetcher, CategoryFactory, $ionicLoading) {
  	console.log('cityAreaCode='+$stateParams.cityAreaCode);
  	
+ 	$scope.show = function() {
+    	$ionicLoading.show({
+      	template: '<p>Loading...</p><ion-spinner icon="lines"></ion-spinner>'
+    		});
+  	};
+
+  	$scope.hide = function(){
+        $ionicLoading.hide();
+  	};
+ 	
+ 	$scope.show($ionicLoading);
  	StoreFetcher.all($stateParams.cityAreaCode)
         .success(function (data) { 
             $scope.stores = data;
  			$scope.categories = CategoryFactory.all($scope.stores);
-    	}
-    );
-    
+    	}).error(function(data) {
+      	    // Do something on error
+        	var alertPopup = $ionicPopup.alert({
+            title: 'خطا در بروز رسانی ',
+            template: 'لطفا دوباره تلاش نمایید'
+        	});
+    	}).finally(function($ionicLoading) { 
+      		// On both cases hide the loading
+      		$scope.hide($ionicLoading);  
+    	});
+  
     $scope.filter = function (search) {
       console.log(search);
       var allCategories = CategoryFactory.getCategories();
@@ -147,33 +166,70 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('NearMeCtrl', function($scope, $stateParams, StoreFetcher,StoreFactory) {
+.controller('NearMeCtrl', function($scope, $stateParams, StoreFetcher,StoreFactory, $ionicLoading) {
 	var curLat = 0;
 	var curLon = 0;
 	$scope.distance = 1;
+	
+	$scope.show = function() {
+    	$ionicLoading.show({
+      	template: '<p>Loading...</p><ion-spinner icon="lines"></ion-spinner>'
+    		});
+  	};
+
+  	$scope.hide = function(){
+        $ionicLoading.hide();
+  	};
+ 	
+ 	$scope.show($ionicLoading);
+
 	navigator.geolocation.getCurrentPosition(function(pos) {
-		
 		// curLat = pos.coords.latitude;
 		curLat = 32.654627;
 		// curLon = pos.coords.longitude;
 		curLon = 51.667983;
 		$scope.updateStores(1);
 		}, function(error) {
+		  $scope.hide($ionicLoading);
           alert('Unable to get location: ' + error.message);
         });
         
     $scope.updateStores = function(dist) {
     	console.log('range value has changed to :'+dist);
-    	StoreFactory.findNearmeStores(StoreFetcher,curLat,curLon,dist).success(function (data) { 
+
+    	StoreFactory.findNearmeStores(StoreFetcher,curLat,curLon,dist)
+    	
+    	.success(function (data) { 
 			$scope.stores = data;
-		});
+		}).error(function(data) {
+      	    // Do something on error
+        	var alertPopup = $ionicPopup.alert({
+            title: 'خطا در بروز رسانی ',
+            template: 'لطفا دوباره تلاش نمایید'
+        	});
+    	}).finally(function($ionicLoading) { 
+      		// On both cases hide the loading
+      		$scope.hide($ionicLoading);  
+    	});
   	}
 })
 
-.controller('DealsCtrl', function($scope, $stateParams, StoreFetcher,StoreFactory) {
+.controller('DealsCtrl', function($scope, $stateParams, StoreFetcher,StoreFactory, $ionicLoading) {
 	var curLat = 0;
 	var curLon = 0;
 	$scope.distance = 5;
+	
+	$scope.show = function() {
+    	$ionicLoading.show({
+      	template: '<p>Loading...</p><ion-spinner icon="lines"></ion-spinner>'
+    		});
+  	};
+
+  	$scope.hide = function(){
+        $ionicLoading.hide();
+  	};
+	
+	$scope.show($ionicLoading);
 	navigator.geolocation.getCurrentPosition(function(pos) {
 		
 		// curLat = pos.coords.latitude;
@@ -182,14 +238,26 @@ angular.module('starter.controllers', [])
 		curLon = 51.442341;
 		$scope.updateStores(5);
 		}, function(error) {
+		  $scope.hide($ionicLoading);
           alert('Unable to get location: ' + error.message);
         });
         
     $scope.updateStores = function(dist) {
     	console.log('range value has changed to :'+dist);
-    	StoreFactory.findDealsStores(StoreFetcher,curLat,curLon,dist).success(function (data) { 
+    	StoreFactory.findDealsStores(StoreFetcher,curLat,curLon,dist)
+    	
+    	.success(function (data) { 
 			$scope.stores = data;
-		});
+		}).error(function(data) {
+      	    // Do something on error
+        	var alertPopup = $ionicPopup.alert({
+            title: 'خطا در بروز رسانی ',
+            template: 'لطفا دوباره تلاش نمایید'
+        	});
+    	}).finally(function($ionicLoading) { 
+      		// On both cases hide the loading
+      		$scope.hide($ionicLoading);  
+    	});
   	}
 })
 
@@ -201,10 +269,4 @@ angular.module('starter.controllers', [])
 .controller('DealsStoreDetailsCtrl', function($scope, $stateParams, StoreFactory) {
  	$scope.dealsStore = StoreFactory.getDealsStore($stateParams.storeIndex);
  	console.log($scope.dealsStore);
- })
-
-
-
-
-
-;
+ });
