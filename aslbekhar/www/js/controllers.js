@@ -103,7 +103,7 @@ angular.module('starter.controllers', [])
 
 .controller('MapCtrl', function($scope, $ionicLoading, $compile, $stateParams) {
 
-	$scope.init = function() {
+	function initialize() {
         var myLatlng = new google.maps.LatLng($stateParams.lat,$stateParams.lon);
 
         var mapOptions = {
@@ -135,7 +135,7 @@ angular.module('starter.controllers', [])
         $scope.map = map;
     };
 
-    // google.maps.event.addDomListener(window, 'load', initialize);
+    ionic.Platform.ready(initialize);
 
     $scope.centerOnMe = function() {
         if(!$scope.map) {
@@ -159,6 +159,8 @@ angular.module('starter.controllers', [])
         alert('Example of infowindow with ng-click')
     };
 })
+
+
 
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {

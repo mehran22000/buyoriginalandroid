@@ -29,6 +29,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
   $ionicConfigProvider.tabs.position("bottom"); //Places them at the bottom for all OS
   $ionicConfigProvider.tabs.style("standard"); //Makes them all look the same across all OS
   $ionicConfigProvider.navBar.alignTitle('center')
+  $ionicConfigProvider.views.maxCache(0);
 
 })
 
