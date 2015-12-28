@@ -32,7 +32,7 @@ angular.module('starter.controllers', [])
  	
  	$scope.show = function() {
     	$ionicLoading.show({
-      	template: '<p>Loading...</p><ion-spinner icon="lines"></ion-spinner>'
+      	template: '<p> ... بارگزاری</p><ion-spinner icon="lines"></ion-spinner>'
     		});
   	};
 
@@ -173,7 +173,7 @@ angular.module('starter.controllers', [])
 	
 	$scope.show = function() {
     	$ionicLoading.show({
-      	template: '<p>Loading...</p><ion-spinner icon="lines"></ion-spinner>'
+      	template: '<p> ... بارگزاری</p><ion-spinner icon="lines"></ion-spinner>'
     		});
   	};
 
@@ -221,7 +221,7 @@ angular.module('starter.controllers', [])
 	
 	$scope.show = function() {
     	$ionicLoading.show({
-      	template: '<p>Loading...</p><ion-spinner icon="lines"></ion-spinner>'
+      	template: '<p> ... بارگزاری</p><ion-spinner icon="lines"></ion-spinner>'
     		});
   	};
 
@@ -267,6 +267,12 @@ angular.module('starter.controllers', [])
  })
 
 .controller('DealsStoreDetailsCtrl', function($scope, $stateParams, StoreFactory) {
+ 	$scope.dealsStore = StoreFactory.getDealsStore($stateParams.storeIndex);
+ 	$scope.storeIndex = $stateParams.storeIndex;
+ 	console.log($scope.dealsStore);
+ })
+ 
+ .controller('DealsStoreNoteCtrl', function($scope, $stateParams, StoreFactory) {
  	$scope.dealsStore = StoreFactory.getDealsStore($stateParams.storeIndex);
  	console.log($scope.dealsStore);
  });

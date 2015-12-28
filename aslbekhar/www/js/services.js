@@ -33,7 +33,7 @@ angular.module('starter.services', [])
       all: function(areaCode){
          return $http({
             method: 'GET',
-            url: 'https://aslbekhar.herokuapp.com/stores/storelist/city/'+areaCode.toString(),
+            url: 'https://buyoriginal.herokuapp.com/stores/storelist/city/'+areaCode.toString(),
             params: {}
          });
       },
@@ -41,7 +41,7 @@ angular.module('starter.services', [])
       discounts: function(lat,lon,distance){
       	return $http({
             method: 'GET',
-            url: 'https://aslbekhar.herokuapp.com/stores/storelist/discounts/'+lat.toString()+'/'+lon.toString()+'/'+ distance.toString(),
+            url: 'https://buyoriginal.herokuapp.com/stores/storelist/discounts/'+lat.toString()+'/'+lon.toString()+'/'+ distance.toString(),
             params: {}
          });
       },
@@ -49,7 +49,7 @@ angular.module('starter.services', [])
       nearme: function(brandId, lat,lon,distance){
       	return $http({
             method: 'GET',
-            url: 'https://aslbekhar.herokuapp.com/stores/storelist/'+brandId.toString()+'/'+lat.toString()+'/'+lon.toString()+'/'+ distance.toString(),
+            url: 'https://buyoriginal.herokuapp.com/stores/storelist/'+brandId.toString()+'/'+lat.toString()+'/'+lon.toString()+'/'+ distance.toString(),
             params: {}
          });
       }
@@ -63,7 +63,7 @@ angular.module('starter.services', [])
 	var availableCat = [{nameFa:'پوشاک بانوان',nameEn:'dress_women'},{nameFa:'پوشاک',nameEn:'dress'},{nameFa:'ساعت',nameEn:'watch'},{nameFa:'موبایل',nameEn:'mobile'},
 						{nameFa:'چرم',nameEn:'leather'},{nameFa:'پوشاک ورزشی',nameEn:'dress_sport'},{nameFa:'کفش',nameEn:'shoes'},{nameFa:'آرایش و زیبایی',nameEn:'makeup'},
 						{nameFa:'عطر و ادکلن',nameEn:'perfume'},{nameFa:'پوشاک آقایان',nameEn:'dress_men'},{nameFa:'لوازم و پوشاک کودک',nameEn:'baby'},
-						{nameFa:'لباس عروس',nameEn:'wedding'}];
+						{nameFa:'لباس عروس',nameEn:'wedding'},{nameFa:'طلا و جواهر',nameEn:'jewels'}];
 						
     var getCategories = function(){
       return categories;
@@ -86,6 +86,7 @@ angular.module('starter.services', [])
 	return {
 		all: function (stores) {
 			var catCounter = 0;
+			catStores = {};
 			for(var i=0;i<stores.length;i++){
         		var obj = stores[i];
         		var category = obj.bCategory;

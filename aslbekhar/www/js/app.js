@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','filters.stringUtils'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','filters.stringUtils','app.directives'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -36,6 +36,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
 .config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
+
+  .state('store-location', {
+      url: '/store/map/:lat/:lon',
+      templateUrl: 'templates/store-map.html',
+      controller: 'MapCtrl'
+   }) 
+
+   .state('deals-store-location', {
+      url: 'deals/store/map/:lat/:lon',
+      templateUrl: 'templates/deals-store-map.html',
+      controller: 'MapCtrl'
+   })
 
   // setup an abstract state for the tabs directive
   .state('tab', {
@@ -74,7 +86,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
         }
       }
    })
-    
+        
     .state('tab.deals', {
       url: '/deals',
       views: {
@@ -91,6 +103,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
         'tab-deals': {
           templateUrl: 'templates/deals-store-detail.html',
           controller: 'DealsStoreDetailsCtrl'
+        }
+      }
+   })
+   
+   .state('tab.deals-store-note', {
+      url: '/deals/store/note/:storeIndex',
+      views: {
+        'tab-deals': {
+          templateUrl: 'templates/deals-store-note.html',
+          controller: 'DealsStoreNoteCtrl'
+        }
+      }
+   })
+   
+   .state('tab.deals-store-location', {
+      url: '/deals/store/map/:lat/:lon',
+      views: {
+        'tab-deals': {
+          templateUrl: 'templates/deals-store-map.html',
+          controller: 'MapCtrl'
         }
       }
    })
@@ -135,7 +167,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
           controller: 'MapCtrl'
         }
       }
-   });
+   })
+   
+   
+   ;
   
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/search');
