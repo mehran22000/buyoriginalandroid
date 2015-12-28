@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','filters.stringUtils','app.directives'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','filters.stringUtils'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -37,18 +37,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
 
   $stateProvider
 
-  .state('store-location', {
-      url: '/store/map/:lat/:lon',
-      templateUrl: 'templates/store-map.html',
-      controller: 'MapCtrl'
-   }) 
-
-   .state('deals-store-location', {
-      url: 'deals/store/map/:lat/:lon',
-      templateUrl: 'templates/deals-store-map.html',
-      controller: 'MapCtrl'
-   })
-
   // setup an abstract state for the tabs directive
   .state('tab', {
     url: '/tab',
@@ -67,6 +55,47 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
       }
     })
 
+ 
+   .state('tab.search-category', {
+      url: '/category/:cityAreaCode',
+      views: {
+        'tab-search': {
+          templateUrl: 'templates/category-list.html',
+          controller: 'CategoryCtrl'
+        }
+      }
+   })
+   
+   .state('tab.search-brand', {
+      url: '/brands/:catIndex',
+      views: {
+        'tab-search': {
+          templateUrl: 'templates/brand-list.html',
+          controller: 'BrandCtrl'
+        }
+      }
+   })
+   
+   .state('tab.search-store', {
+      url: '/stores/:brandIndex',
+      views: {
+        'tab-search': {
+          templateUrl: 'templates/store-list.html',
+          controller: 'StoreCtrl'
+        }
+      }
+   })
+  
+  .state('tab.search-store-location', {
+      url: '/store/map/:lat/:lon',
+      views: {
+        'tab-search': {
+          templateUrl: 'templates/store-map.html',
+          controller: 'MapCtrl'
+        }
+      }
+   })
+   
    .state('tab.nearme', {
       url: '/nearme',
       views: {
@@ -86,7 +115,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
         }
       }
    })
-        
+    
+	.state('tab.nearme-store-location', {
+      url: '/nearme/store/map/:lat/:lon',
+      views: {
+        'tab-nearme': {
+          templateUrl: 'templates/nearme-store-map.html',
+          controller: 'MapCtrl'
+        }
+      }
+   })     
+     
     .state('tab.deals', {
       url: '/deals',
       views: {
@@ -125,52 +164,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
           controller: 'MapCtrl'
         }
       }
-   })
-    
-    
-   .state('tab.search-category', {
-      url: '/category/:cityAreaCode',
-      views: {
-        'tab-search': {
-          templateUrl: 'templates/category-list.html',
-          controller: 'CategoryCtrl'
-        }
-      }
-   })
-   
-   .state('tab.search-brand', {
-      url: '/brands/:catIndex',
-      views: {
-        'tab-search': {
-          templateUrl: 'templates/brand-list.html',
-          controller: 'BrandCtrl'
-        }
-      }
-   })
-   
-   .state('tab.search-store', {
-      url: '/stores/:brandIndex',
-      views: {
-        'tab-search': {
-          templateUrl: 'templates/store-list.html',
-          controller: 'StoreCtrl'
-        }
-      }
-   })
-  
-  
-  .state('tab.search-store-location', {
-      url: '/stores/map/:lat/:lon',
-      views: {
-        'tab-search': {
-          templateUrl: 'templates/store-map.html',
-          controller: 'MapCtrl'
-        }
-      }
-   })
-   
-   
-   ;
+   });
   
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/search');
