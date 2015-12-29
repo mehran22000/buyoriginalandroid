@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.aslbekhar192325" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.ionicframework.aslbekhar192325" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>اصل بخر</name>
   <description>
-        An Ionic Framework and Cordova project.
+       A mobile application to find original products.
     </description>
-  <author email="you@example.com" href="http://example.com.com/">
-      Your Name Here
+  <author email="mehran@aslbekhar.com" href="http://www.aslbekhadr.com">
+      Mehran Najafi
     </author>
   <content src="index.html"/>
   <access origin="*"/>
