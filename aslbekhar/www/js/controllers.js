@@ -186,10 +186,10 @@ angular.module('starter.controllers', [])
  	$scope.show($ionicLoading);
 
 	navigator.geolocation.getCurrentPosition(function(pos) {
-		// curLat = pos.coords.latitude;
-		curLat = 32.654627;
-		// curLon = pos.coords.longitude;
-		curLon = 51.667983;
+		curLat = pos.coords.latitude;
+		// curLat = 32.654627;
+		curLon = pos.coords.longitude;
+		// curLon = 51.667983;
 		$scope.updateStores(1);
 		}, function(error) {
 		  $scope.hide($ionicLoading);
@@ -202,7 +202,12 @@ angular.module('starter.controllers', [])
     	StoreFactory.findNearmeStores(StoreFetcher,curLat,curLon,dist)
     	
     	.success(function (data) { 
-			$scope.stores = data;
+    		if (data.length > 0) {
+				$scope.stores = data;
+			}
+			else {
+				$scope.errors = [{'error':'no_store_found'}];
+			} 
 		}).error(function(data) {
       	    // Do something on error
         	var alertPopup = $ionicPopup.alert({
@@ -234,10 +239,10 @@ angular.module('starter.controllers', [])
 	$scope.show($ionicLoading);
 	navigator.geolocation.getCurrentPosition(function(pos) {
 		
-		// curLat = pos.coords.latitude;
-		curLat = 35.808915;
-		// curLon = pos.coords.longitude;
-		curLon = 51.442341;
+		curLat = pos.coords.latitude;
+		// curLat = 35.808915;
+		curLon = pos.coords.longitude;
+		// curLon = 51.442341;
 		$scope.updateStores(5);
 		}, function(error) {
 		  $scope.hide($ionicLoading);
@@ -249,7 +254,12 @@ angular.module('starter.controllers', [])
     	StoreFactory.findDealsStores(StoreFetcher,curLat,curLon,dist)
     	
     	.success(function (data) { 
-			$scope.stores = data;
+			if (data.length > 0) {
+				$scope.stores = data;
+			}
+			else {
+				$scope.errors = [{'error':'no_store_found'}];
+			}
 		}).error(function(data) {
       	    // Do something on error
         	var alertPopup = $ionicPopup.alert({

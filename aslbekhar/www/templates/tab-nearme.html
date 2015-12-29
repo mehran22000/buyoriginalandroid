@@ -9,14 +9,32 @@
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="store in stores track by $index" type="item-text-wrap" href="#/tab/nearme/store/{{$index}}">
         <img ng-src="pics/logos/{{store.bName.toLowerCase()| removeSpaces}}.png">
-       		 <div class="text text-right">
+       	<div class="text text-right">
         	 <h2> {{store.bName}} </h2>
-       		 <p> {{store.bCategory}} </p>
+       	     <p> {{store.bCategory}} </p>
        		 <p> {{store.distance}} </p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
-	    
+       		 <i class="icon ion-chevron-right icon-accessory"></i>
+       	</div>
       </ion-item>
     </ion-list>
+      
+    <div class="card" ng-if="errors">
+  		<div class="item item-divider">
+  			<div class="text text-right">
+    		<h2> !!!فروشگاهی پیدا نشد 
+    		<img ng-src="pics/error.png">
+    		</h2>
+    		</div>
+  		</div>
+  		<div class="item item-text-wrap">
+  			<p></p>
+  			<div class="text text-right">
+    		.گستره جستجو را افزایش دهید و دوباره جستجو نمایید
+    		</div>
+    		<p></p>
+  		</div>
+	</div>  
+
   </ion-content>
 </ion-view>
 
