@@ -30,14 +30,29 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
   $ionicConfigProvider.tabs.style("standard"); //Makes them all look the same across all OS
   $ionicConfigProvider.navBar.alignTitle('center')
   $ionicConfigProvider.views.maxCache(0);
-
 })
 
 
+.config(['$httpProvider', function($httpProvider) {  
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        $httpProvider.defaults.headers.common = {};
+  		$httpProvider.defaults.headers.post = {};
+  		$httpProvider.defaults.headers.put = {};
+  		$httpProvider.defaults.headers.patch = {};
+  		$httpProvider.defaults.headers.common = { 
+        	'Authorization': 'Basic dXNlcm5hbWU6cGFzc3dvcmQ=',
+        	'Accept': 'application/json;odata=verbose',
+        	'token': 'dXNlcm5hbWU6cGFzc3dvcmQ=',
+        	'Content-Type': 'application/json'
+      };
+}])
+
+
 .config(function($stateProvider, $urlRouterProvider) {
-
+  
   $stateProvider
-
+ 	
   // setup an abstract state for the tabs directive
   .state('tab', {
     url: '/tab',
