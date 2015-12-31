@@ -33,7 +33,9 @@ angular.module('starter.services', [])
       all: function(areaCode){
          return $http({
             method: 'GET',
-            url: 'https://buyoriginal.herokuapp.com/stores/storelist/city/'+areaCode.toString(),
+               url: 'https://buyoriginal.herokuapp.com/services/stores/storelist/city/'+areaCode.toString(),
+            // url: 'http://localhost:5000/services/stores/storelist/city/'+areaCode.toString(),
+            
             params: {}
          });
       },
@@ -41,7 +43,7 @@ angular.module('starter.services', [])
       discounts: function(lat,lon,distance){
       	return $http({
             method: 'GET',
-            url: 'https://buyoriginal.herokuapp.com/stores/storelist/discounts/'+lat.toString()+'/'+lon.toString()+'/'+ distance.toString(),
+            url: 'https://buyoriginal.herokuapp.com/services/stores/storelist/discounts/'+lat.toString()+'/'+lon.toString()+'/'+ distance.toString(),
             params: {}
          });
       },
@@ -49,7 +51,7 @@ angular.module('starter.services', [])
       nearme: function(brandId, lat,lon,distance){
       	return $http({
             method: 'GET',
-            url: 'https://buyoriginal.herokuapp.com/stores/storelist/'+brandId.toString()+'/'+lat.toString()+'/'+lon.toString()+'/'+ distance.toString(),
+            url: 'https://buyoriginal.herokuapp.com/services/stores/storelist/'+brandId.toString()+'/'+lat.toString()+'/'+lon.toString()+'/'+ distance.toString(),
             params: {}
          });
       }
