@@ -43,7 +43,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
   		$httpProvider.defaults.headers.common = { 
         	'Authorization': 'Basic dXNlcm5hbWU6cGFzc3dvcmQ=',
         	'Accept': 'application/json;odata=verbose',
-        	'token': 'dXNlcm5hbWU6cGFzc3dvcmQ=',
+        	'token': 'YnV5b3JpZ2luYWxicmFuZHNieWFzbGJla2hhcg==',
         	'Content-Type': 'application/json'
       };
 }])
