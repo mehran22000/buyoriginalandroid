@@ -39,21 +39,36 @@ angular.module('starter.controllers', [])
   	$scope.hide = function(){
         $ionicLoading.hide();
   	};
+  	
  	
  	$scope.show($ionicLoading);
  	StoreFetcher.all($stateParams.cityAreaCode)
-        .success(function (data) { 
+       	.success(function (data) { 
             $scope.stores = data;
+        	window.localStorage[$stateParams.cityAreaCode] = JSON.stringify(data);
  			$scope.categories = CategoryFactory.all($scope.stores);
-    	}).error(function(data) {
-      	    // Do something on error
-        	var alertPopup = $ionicPopup.alert({
-            title: 'خطا در بروز رسانی ',
-            template: 'لطفا دوباره تلاش نمایید'
-        	});
+		}).error(function(data) {
+		    // Do something on error
+        	var offline = null;
+  			
+  			if (localStorage.getItem($stateParams.cityAreaCode) !== null) {
+  				offline = JSON.parse(window.localStorage[$stateParams.cityAreaCode] || '{}');
+			}
+  	 
+ 			if (offline) {
+ 				console.log('Offline Mode');
+ 				$scope.stores = offline;
+				$scope.categories = CategoryFactory.all($scope.stores);
+ 			}
+ 			else {
+ 				var alertPopup = $ionicPopup.alert({
+        		title: 'خطا در بروز رسانی ',
+        		template: 'لطفا دوباره تلاش نمایید'
+        		});
+ 			}
     	}).finally(function($ionicLoading) { 
       		// On both cases hide the loading
-      		$scope.hide($ionicLoading);  
+    		$scope.hide($ionicLoading);  
     	});
   
     $scope.filter = function (search) {

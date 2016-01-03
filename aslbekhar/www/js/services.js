@@ -35,7 +35,6 @@ angular.module('starter.services', [])
             method: 'GET',
                url: 'https://buyoriginal.herokuapp.com/services/stores/storelist/city/'+areaCode.toString(),
             // url: 'http://localhost:5000/services/stores/storelist/city/'+areaCode.toString(),
-            
             params: {}
          });
       },
@@ -89,6 +88,7 @@ angular.module('starter.services', [])
 		all: function (stores) {
 			var catCounter = 0;
 			catStores = {};
+			categories = [];
 			for(var i=0;i<stores.length;i++){
         		var obj = stores[i];
         		var category = obj.bCategory;
