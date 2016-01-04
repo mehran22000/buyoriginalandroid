@@ -50,7 +50,6 @@ angular.module('starter.controllers', [])
 		}).error(function(data) {
 		    // Do something on error
         	var offline = null;
-  			
   			if (localStorage.getItem($stateParams.cityAreaCode) !== null) {
   				offline = JSON.parse(window.localStorage[$stateParams.cityAreaCode] || '{}');
 			}
@@ -70,6 +69,7 @@ angular.module('starter.controllers', [])
       		// On both cases hide the loading
     		$scope.hide($ionicLoading);  
     	});
+    	
   
     $scope.filter = function (search) {
       console.log(search);
