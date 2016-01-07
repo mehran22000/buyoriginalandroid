@@ -27,8 +27,18 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('CategoryCtrl', function($scope, $http, $stateParams, StoreFetcher, CategoryFactory, $ionicLoading) {
- 	console.log('cityAreaCode='+$stateParams.cityAreaCode);
+
+.controller('FetcherCtrl', function($scope, $http, $stateParams, StoreFetcher, CategoryFactory, $ionicLoading, $timeout) {
+ 	console.log('FetcherCtrl='+$stateParams.cityAreaCode);
+ 	
+ 	if (CategoryFactory.isDataAvailable()){
+ 		console.log('back button pressed');
+ 		CategoryFactory.clearAll();
+ 		window.location.href = '#/search';
+ 		return;
+ 	}
+ 	
+ 	$scope.adImageName = 'ad.'+$stateParams.cityAreaCode.toString()+'.png';
  	
  	$scope.show = function() {
     	$ionicLoading.show({
@@ -40,13 +50,24 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
   	};
   	
- 	
+  	var isDataReady = false;
+ 	var isAdTimeEnough = false;
  	$scope.show($ionicLoading);
+ 	
+ 	$timeout(function(){$scope.hide($ionicLoading);
+ 				isAdTimeEnough = true;
+ 				if (isDataReady){
+ 					window.location.href = '#/tab/category/'+$stateParams.cityAreaCode;
+ 				}
+ 			}, 2000);
+ 	
  	StoreFetcher.all($stateParams.cityAreaCode)
        	.success(function (data) { 
             $scope.stores = data;
         	window.localStorage[$stateParams.cityAreaCode] = JSON.stringify(data);
  			$scope.categories = CategoryFactory.all($scope.stores);
+ 			CategoryFactory.setStores($scope.stores);
+
 		}).error(function(data) {
 		    // Do something on error
         	var offline = null;
@@ -58,6 +79,7 @@ angular.module('starter.controllers', [])
  				console.log('Offline Mode');
  				$scope.stores = offline;
 				$scope.categories = CategoryFactory.all($scope.stores);
+				CategoryFactory.setStores($scope.stores); 
  			}
  			else {
  				var alertPopup = $ionicPopup.alert({
@@ -67,10 +89,25 @@ angular.module('starter.controllers', [])
  			}
     	}).finally(function($ionicLoading) { 
       		// On both cases hide the loading
-    		$scope.hide($ionicLoading);  
+    		isDataReady = true;
+ 			if (isAdTimeEnough) {
+ 				window.location.href = '#/tab/category/'+$stateParams.cityAreaCode;
+ 				$scope.hide($ionicLoading); 
+ 			} 
     	});
+})
     	
   
+    
+
+
+.controller('CategoryCtrl', function($scope, $http, $stateParams, StoreFetcher, CategoryFactory, $ionicLoading) {
+ 	console.log('cityAreaCode='+$stateParams.cityAreaCode);
+ 	
+ 	$scope.stores = CategoryFactory.getStores();
+ 	$scope.categories = CategoryFactory.getCategories();
+    $scope.cityAreaCode = $stateParams.cityAreaCode;
+  	
     $scope.filter = function (search) {
       console.log(search);
       var allCategories = CategoryFactory.getCategories();
@@ -82,9 +119,46 @@ angular.module('starter.controllers', [])
             })
         $scope.categories=filteredCategories;
   	};
+  	
  })
  
  
+ 
+ .controller('CatAdCtrl', function($scope, $stateParams, $ionicLoading,$timeout,CategoryFactory, BrandFactory) {
+ 	console.log('CatAdCtrl='+$stateParams.catIndex);
+ 	console.log('CatAdCtrl='+$stateParams.cityAreaCode);
+ 	
+ 	if (BrandFactory.isDataAvailable()){
+ 		console.log('back button pressed');
+ 		BrandFactory.clearAll();
+ 		window.location.href = '#/tab/category/'+$stateParams.cityAreaCode;
+ 		return;
+ 	}
+ 	
+ 	
+ 	var categories = CategoryFactory.getCategories();
+ 	var categoryName = categories[$stateParams.catIndex].nameEn;
+ 	
+ 	$scope.adImageName = 'ad.'+$stateParams.cityAreaCode.toString()+'.'+categoryName+'.png';
+ 	
+ 	$scope.show = function() {
+    	$ionicLoading.show({
+      	template: '<p> ... بارگزاری</p><ion-spinner icon="lines"></ion-spinner>'
+    		});
+  	};
+
+  	$scope.hide = function(){
+        $ionicLoading.hide();
+  	};
+  	
+ 	$scope.show($ionicLoading);
+ 	
+ 	$timeout(function(){$scope.hide($ionicLoading);
+ 				window.location.href = '#/tab/brands/'+$stateParams.catIndex.toString();
+ 			}, 2000); 
+})
+ 
+
  .controller('BrandCtrl', function($scope, $stateParams, CategoryFactory, BrandFactory) {
  	console.log('category='+$stateParams.catIndex);
  
@@ -292,6 +366,11 @@ angular.module('starter.controllers', [])
  	$scope.nearStore = StoreFactory.getNearmeStore($stateParams.storeIndex);
  	console.log($scope.nearStore);
  })
+ 
+ .controller('AdCtrl', function($scope, $stateParams) {
+ 	console.log('AdCtrl');
+ })
+ 
 
 .controller('DealsStoreDetailsCtrl', function($scope, $stateParams, StoreFactory) {
  	$scope.dealsStore = StoreFactory.getDealsStore($stateParams.storeIndex);

@@ -5,7 +5,7 @@
   		<input type="search" placeholder="Search" ng-model="search" ng-change="filter(search)">
    </label>
    <ion-list>
-        <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="city in cities" type="item-text-wrap" href="#/tab/category/{{city.areaCode}}">
+        <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="city in cities" type="item-text-wrap" href="#/tab/search/datafetcher/{{city.areaCode}}">
         <img ng-src="{{city.imageName}}">
         <p> </p>
         <p> </p>

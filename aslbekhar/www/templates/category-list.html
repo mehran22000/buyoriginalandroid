@@ -5,7 +5,7 @@
   		<input type="search" placeholder="Search" ng-model="search" ng-change="filter(search)">
 	</label>
     <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="cat in categories track by $index" type="item-text-wrap" href="#/tab/brands/{{cat.index}}">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="cat in categories track by $index" type="item-text-wrap" href="#/tab/search/category/{{cityAreaCode}}/{{cat.index}}">
         <img ng-src="pics/{{cat.nameEn}}.png">
         <p> </p>
         <p> </p>

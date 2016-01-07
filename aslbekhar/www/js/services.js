@@ -61,7 +61,9 @@ angular.module('starter.services', [])
 	
 	var categories = [];
 	var catStores = {};
-	var availableCat = [{nameFa:'پوشاک بانوان',nameEn:'dress_women'},{nameFa:'پوشاک',nameEn:'dress'},{nameFa:'ساعت',nameEn:'watch'},{nameFa:'موبایل',nameEn:'mobile'},
+	var stores = [];
+	
+	var availableCat = [{nameFa:'پوشاک بانوان',nameEn:'dress_women'},{nameFa:'پوشاک',nameEn:'clothes'},{nameFa:'ساعت',nameEn:'watch'},{nameFa:'موبایل',nameEn:'mobile'},
 						{nameFa:'چرم',nameEn:'leather'},{nameFa:'پوشاک ورزشی',nameEn:'dress_sport'},{nameFa:'کفش',nameEn:'shoes'},{nameFa:'آرایش و زیبایی',nameEn:'makeup'},
 						{nameFa:'عطر و ادکلن',nameEn:'perfume'},{nameFa:'پوشاک آقایان',nameEn:'dress_men'},{nameFa:'لوازم و پوشاک کودک',nameEn:'baby'},
 						{nameFa:'لباس عروس',nameEn:'wedding'},{nameFa:'طلا و جواهر',nameEn:'jewels'}];
@@ -73,6 +75,29 @@ angular.module('starter.services', [])
 	var getCatStores = function(){
       return catStores;
     };
+    
+    var setStores = function(allStores) {
+       stores=allStores;
+    };
+    
+    var getStores = function(){
+    	return stores;
+    };
+    
+    var isDataAvailable = function() {
+    	if (stores.length>0) {
+    		return true;	
+    	}
+    	else {
+    		return false;
+    	}
+    };
+    
+    var clearAll = function() {
+    	categories = [];
+		catStores = {};
+		stores = [];
+    }
     
     var getNameEn = function(nameFa) {
     	var nameEn = 'general';
@@ -107,7 +132,11 @@ angular.module('starter.services', [])
     		return categories;
 		},
 		getCatStores:getCatStores,
-		getCategories:getCategories
+		getCategories:getCategories,
+		getStores:getStores,
+		setStores:setStores,
+		isDataAvailable:isDataAvailable,
+		clearAll:clearAll
 	}	
 })
 
@@ -125,6 +154,20 @@ angular.module('starter.services', [])
       return brands;
     };
     
+    var isDataAvailable = function() {
+    	if (brands.length>0) {
+    		return true;	
+    	}
+    	else {
+    		return false;
+    	}
+    };
+    
+    var clearAll = function() {
+    	brands = [];
+    	brandStores = {};
+    };
+
     return {
 		all: function (allStores) {
 			var brandCounter = 0;
@@ -148,7 +191,9 @@ angular.module('starter.services', [])
     },
     
     getBrands: getBrands,
-    getBrandStores: getBrandStores
+    getBrandStores: getBrandStores,
+    isDataAvailable: isDataAvailable,
+    clearAll:clearAll
     }	
 })
 

@@ -70,7 +70,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
         }
       }
     })
-
+    
+    .state('tab.fetcher', {
+      url: '/search/datafetcher/:cityAreaCode',
+      views: {
+        'tab-search': {
+          templateUrl: 'templates/datafetcher.html',
+          controller: 'FetcherCtrl'
+        }
+      }
+    })
  
    .state('tab.search-category', {
       url: '/category/:cityAreaCode',
@@ -81,6 +90,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
         }
       }
    })
+   
+   .state('tab.category-ad', {
+      url: '/search/category/:cityAreaCode/:catIndex',
+      views: {
+        'tab-search': {
+          templateUrl: 'templates/category-ad.html',
+          controller: 'CatAdCtrl'
+        }
+      }
+    })
    
    .state('tab.search-brand', {
       url: '/brands/:catIndex',
