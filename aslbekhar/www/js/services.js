@@ -63,10 +63,10 @@ angular.module('starter.services', [])
 	var catStores = {};
 	var stores = [];
 	
-	var availableCat = [{nameFa:'پوشاک بانوان',nameEn:'dress_women'},{nameFa:'پوشاک',nameEn:'clothes'},{nameFa:'ساعت',nameEn:'watch'},{nameFa:'موبایل',nameEn:'mobile'},
-						{nameFa:'چرم',nameEn:'leather'},{nameFa:'پوشاک ورزشی',nameEn:'dress_sport'},{nameFa:'کفش',nameEn:'shoes'},{nameFa:'آرایش و زیبایی',nameEn:'makeup'},
-						{nameFa:'عطر و ادکلن',nameEn:'perfume'},{nameFa:'پوشاک آقایان',nameEn:'dress_men'},{nameFa:'لوازم و پوشاک کودک',nameEn:'baby'},
-						{nameFa:'لباس عروس',nameEn:'wedding'},{nameFa:'طلا و جواهر',nameEn:'jewels'}];
+	var availableCat = [{nameFa:'پوشاک بانوان',nameEn:'women_clothes'},{nameFa:'پوشاک',nameEn:'clothes'},{nameFa:'ساعت',nameEn:'watches'},{nameFa:'موبایل',nameEn:'cellphone'},
+						{nameFa:'چرم',nameEn:'leather'},{nameFa:'پوشاک ورزشی',nameEn:'sports_clothes'},{nameFa:'کفش',nameEn:'shoes'},{nameFa:'آرایش و زیبایی',nameEn:'beauty'},
+						{nameFa:'عطر و ادکلن',nameEn:'perfume'},{nameFa:'پوشاک آقایان',nameEn:'men_clothes'},{nameFa:'لوازم و پوشاک کودک',nameEn:'baby_clothes'},
+						{nameFa:'لباس عروس',nameEn:'wedding'},{nameFa:'طلا و جواهر',nameEn:'jewelry'}];
 						
     var getCategories = function(){
       return categories;

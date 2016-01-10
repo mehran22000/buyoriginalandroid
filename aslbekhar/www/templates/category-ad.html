@@ -1,9 +1,9 @@
 <ion-view view-title="">
   <ion-content>
   
-  <div class="list card">
-  	<div class="item item-image">
-    	<img ng-src="https://buyoriginal.herokuapp.com/images/ads/{{adImageName}}">
+  <div class="list card" ng-hide="{{adHidden}}">
+  	<div class="item item-image" ng-hide="{{adHidden}}">
+    	<img ng-src="{{adImageUrl}}" ng-hide="{{adHidden}}">
   	</div>
   </div>
 

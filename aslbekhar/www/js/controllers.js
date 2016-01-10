@@ -31,14 +31,34 @@ angular.module('starter.controllers', [])
 .controller('FetcherCtrl', function($scope, $http, $stateParams, StoreFetcher, CategoryFactory, $ionicLoading, $timeout) {
  	console.log('FetcherCtrl='+$stateParams.cityAreaCode);
  	
- 	if (CategoryFactory.isDataAvailable()){
+ 	
+ 	$scope.adImageUrl = 'https://buyoriginal.herokuapp.com/images/ads/ad.'+$stateParams.cityAreaCode.toString()+'.png';
+ 	console.log($scope.adImageUrl);
+ 	
+ 	$scope.imageExist = function imageExists(image_url){
+    	var http = new XMLHttpRequest();
+    	http.open('HEAD', image_url, false);
+    	http.send();
+		return http.status != 404;
+
+	}
+ 	
+ 	if (CategoryFactory.isDataAvailable()) {
  		console.log('back button pressed');
  		CategoryFactory.clearAll();
  		window.location.href = '#/search';
  		return;
  	}
  	
- 	$scope.adImageName = 'ad.'+$stateParams.cityAreaCode.toString()+'.png';
+ 	if ($scope.imageExist($scope.adImageUrl)) {
+ 		$scope.adHidden = false;
+ 		console.log('ad exists');
+ 	}
+ 	else {
+ 		$scope.adHidden = true;
+ 		console.log('ad does not exists');
+ 	}
+ 	
  	
  	$scope.show = function() {
     	$ionicLoading.show({
@@ -128,18 +148,28 @@ angular.module('starter.controllers', [])
  	console.log('CatAdCtrl='+$stateParams.catIndex);
  	console.log('CatAdCtrl='+$stateParams.cityAreaCode);
  	
+ 	var categories = CategoryFactory.getCategories();
+ 	var categoryName = categories[$stateParams.catIndex].nameEn;
+ 	
+ 	
+ 	$scope.adImageUrl = 'https://buyoriginal.herokuapp.com/images/ads/ad.'+$stateParams.cityAreaCode.toString()+'.'+categoryName+'.png';
+ 	console.log($scope.adImageUrl);
+ 	
+ 	
+ 	$scope.imageExist = function imageExists(image_url){
+    	var http = new XMLHttpRequest();
+    	http.open('HEAD', image_url, false);
+    	http.send();
+		return http.status != 404;
+	};
+ 	
  	if (BrandFactory.isDataAvailable()){
  		console.log('back button pressed');
  		BrandFactory.clearAll();
  		window.location.href = '#/tab/category/'+$stateParams.cityAreaCode;
  		return;
  	}
- 	
- 	
- 	var categories = CategoryFactory.getCategories();
- 	var categoryName = categories[$stateParams.catIndex].nameEn;
- 	
- 	$scope.adImageName = 'ad.'+$stateParams.cityAreaCode.toString()+'.'+categoryName+'.png';
+
  	
  	$scope.show = function() {
     	$ionicLoading.show({
@@ -151,11 +181,19 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
   	};
   	
- 	$scope.show($ionicLoading);
- 	
- 	$timeout(function(){$scope.hide($ionicLoading);
+  	if ($scope.imageExist($scope.adImageUrl)) {
+  		console.log('Category exists ');
+ 		$scope.show($ionicLoading);
+ 		$scope.adHidden = false;
+ 		$timeout(function(){$scope.hide($ionicLoading);
  				window.location.href = '#/tab/brands/'+$stateParams.catIndex.toString();
- 			}, 2000); 
+ 			}, 2000);
+ 	}
+ 	else {
+ 		$scope.adHidden = true;
+ 		console.log('Category Ad does not exists ');
+ 		window.location.href = '#/tab/brands/'+$stateParams.catIndex.toString();
+ 	}
 })
  
 
