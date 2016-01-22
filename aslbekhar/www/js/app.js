@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','filters.stringUtils'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','filters.stringUtils','angular-google-analytics'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -32,7 +32,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
   $ionicConfigProvider.views.maxCache(0);
 })
 
-
 .config(['$httpProvider', function($httpProvider) {  
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -48,6 +47,30 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
       };
 }])
 
+.config(function(AnalyticsProvider) {
+		AnalyticsProvider.setAccount({tracker:'UA-64002918-1'});
+		AnalyticsProvider.useAnalytics(true);
+        AnalyticsProvider.trackPages(true);
+        AnalyticsProvider.setPageEvent('$stateChangeSuccess');
+})
+
+
+
+.config(function($provide, AnalyticsProvider) {
+
+    $provide.decorator('$exceptionHandler', function($delegate, $injector) {
+        var Analytics;
+
+        return function(exception, cause) {
+            $delegate(exception, cause);
+            Analytics = Analytics || $injector.get('Analytics');
+            Analytics.trackEvent('AngularJS error', exception.message, exception.stack, 0, true);
+        };
+    });
+})
+
+.run(function(Analytics) {
+})
 
 .config(function($stateProvider, $urlRouterProvider) {
   

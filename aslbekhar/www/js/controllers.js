@@ -31,36 +31,15 @@ angular.module('starter.controllers', [])
 .controller('FetcherCtrl', function($scope, $http, $stateParams, StoreFetcher, CategoryFactory, $ionicLoading, $timeout) {
  	console.log('FetcherCtrl='+$stateParams.cityAreaCode);
  	
- 	
  	$scope.adImageUrl = 'https://buyoriginal.herokuapp.com/images/ads/ad.'+$stateParams.cityAreaCode.toString()+'.png';
  	console.log($scope.adImageUrl);
  	
- 	$scope.imageExist = function imageExists(image_url){
-    	var http = new XMLHttpRequest();
-    	http.open('HEAD', image_url, false);
-    	http.send();
-		return http.status != 404;
-
-	}
+ 	var isDataReady = false;
+ 	var isAdTimeEnough = false;
+ 	var isAdAvailable = false;
  	
- 	if (CategoryFactory.isDataAvailable()) {
- 		console.log('back button pressed');
- 		CategoryFactory.clearAll();
- 		window.location.href = '#/search';
- 		return;
- 	}
- 	
- 	if ($scope.imageExist($scope.adImageUrl)) {
- 		$scope.adHidden = false;
- 		console.log('ad exists');
- 	}
- 	else {
- 		$scope.adHidden = true;
- 		console.log('ad does not exists');
- 	}
- 	
- 	
- 	$scope.show = function() {
+ 	// Spinner
+    $scope.show = function() {
     	$ionicLoading.show({
       	template: '<p> ... بارگزاری</p><ion-spinner icon="lines"></ion-spinner>'
     		});
@@ -69,48 +48,87 @@ angular.module('starter.controllers', [])
   	$scope.hide = function(){
         $ionicLoading.hide();
   	};
+ 	
+ 	$scope.imageExist = function imageExists(image_url){
+    	var http = new XMLHttpRequest();
+    	http.open('HEAD', image_url, false);
+    	http.send();
+		return http.status != 404;
+	}
+ 	
+ 	// Pressing back button on category screen
+ 	if (CategoryFactory.isDataAvailable()) {
+ 		console.log('FetcherCtrl.back button pressed');
+ 		CategoryFactory.clearAll();
+ 		window.location.href = '#/search';
+ 		return;
+ 	}
+ 	
+ 	if ($scope.imageExist($scope.adImageUrl)) {
+ 		$scope.adHidden = false;
+ 		isAdAvailable = true;
+ 		console.log('ad exists');
+ 	}
+ 	else {
+ 		$scope.adHidden = true;
+ 		isAdAvailable = false;
+ 		console.log('ad does not exists');
+ 	}
+ 	
   	
-  	var isDataReady = false;
- 	var isAdTimeEnough = false;
- 	$scope.show($ionicLoading);
+  	$scope.show($ionicLoading);
  	
  	$timeout(function(){$scope.hide($ionicLoading);
- 				isAdTimeEnough = true;
- 				if (isDataReady){
- 					window.location.href = '#/tab/category/'+$stateParams.cityAreaCode;
- 				}
- 			}, 2000);
+ 		isAdTimeEnough = true;
+ 		if ((isDataReady) && !(offline)){
+ 			console.log('isDataReady');
+ 			window.location.href = '#/tab/category/'+$stateParams.cityAreaCode;
+ 		}
+ 	}, 2000);
  	
+ 	// First try Offline Data
+ 	var offline = null;
+  	if (localStorage.getItem($stateParams.cityAreaCode) !== null) {
+  		offline = JSON.parse(window.localStorage[$stateParams.cityAreaCode] || '{}');
+	}
+  	 
+ 	if (offline) {
+ 		console.log('Offline Mode');
+ 		$scope.stores = offline;
+		$scope.categories = CategoryFactory.all($scope.stores);
+		CategoryFactory.setStores($scope.stores);
+		isDataReady=true; 
+ 	}
+ 	
+ 	if ((isAdTimeEnough || !isAdAvailable) && (offline)) {
+ 		window.location.href = '#/tab/category/'+$stateParams.cityAreaCode;
+ 		$scope.hide($ionicLoading); 
+ 	}
+ 	
+ 	// Downloading data from database and saving them into local storage for the next time use
+ 	// First time use
  	StoreFetcher.all($stateParams.cityAreaCode)
-       	.success(function (data) { 
+       	.success(function (data) {
+       		console.log('Data loaded'); 
             $scope.stores = data;
         	window.localStorage[$stateParams.cityAreaCode] = JSON.stringify(data);
  			$scope.categories = CategoryFactory.all($scope.stores);
  			CategoryFactory.setStores($scope.stores);
 
 		}).error(function(data) {
-		    // Do something on error
-        	var offline = null;
-  			if (localStorage.getItem($stateParams.cityAreaCode) !== null) {
-  				offline = JSON.parse(window.localStorage[$stateParams.cityAreaCode] || '{}');
-			}
-  	 
- 			if (offline) {
- 				console.log('Offline Mode');
- 				$scope.stores = offline;
-				$scope.categories = CategoryFactory.all($scope.stores);
-				CategoryFactory.setStores($scope.stores); 
- 			}
- 			else {
- 				var alertPopup = $ionicPopup.alert({
-        		title: 'خطا در بروز رسانی ',
-        		template: 'لطفا دوباره تلاش نمایید'
+    	 		
+    	 	if ((isAdTimeEnough || !isAdAvailable) && (!offline)) {	
+    	 		var alertPopup = $ionicPopup.alert({
+        			title: 'خطا در بروز رسانی ',
+        			template: 'لطفا دوباره تلاش نمایید'
         		});
- 			}
+        	}
+    	
     	}).finally(function($ionicLoading) { 
       		// On both cases hide the loading
     		isDataReady = true;
- 			if (isAdTimeEnough) {
+ 			if ((isAdTimeEnough || !isAdAvailable) && (!offline)) {
+ 				console.log('offline data not available');
  				window.location.href = '#/tab/category/'+$stateParams.cityAreaCode;
  				$scope.hide($ionicLoading); 
  			} 
@@ -164,8 +182,9 @@ angular.module('starter.controllers', [])
 	};
  	
  	if (BrandFactory.isDataAvailable()){
- 		console.log('back button pressed');
+ 		console.log('CatAdCtrl.back button pressed');
  		BrandFactory.clearAll();
+ 		console.log('#/tab/category/'+$stateParams.cityAreaCode);
  		window.location.href = '#/tab/category/'+$stateParams.cityAreaCode;
  		return;
  	}
@@ -300,6 +319,14 @@ angular.module('starter.controllers', [])
 	var curLon = 0;
 	$scope.distance = 1;
 	
+	function sortByKey(array, key) {
+    	return array.sort(function(a, b) {
+        	var x = a[key]; var y = b[key];
+        		return ((parseFloat(x) < parseFloat(y)) ? -1 : ((parseFloat(x) > parseFloat(y)) ? 1 : 0));
+    });
+}
+	
+	
 	$scope.show = function() {
     	$ionicLoading.show({
       	template: '<p> ... بارگزاری</p><ion-spinner icon="lines"></ion-spinner>'
@@ -313,10 +340,10 @@ angular.module('starter.controllers', [])
  	$scope.show($ionicLoading);
 
 	navigator.geolocation.getCurrentPosition(function(pos) {
-		curLat = pos.coords.latitude;
-		// curLat = 32.654627;
-		curLon = pos.coords.longitude;
-		// curLon = 51.667983;
+		   curLat = pos.coords.latitude;
+	   //  curLat = 32.654627;
+		   curLon = pos.coords.longitude;
+	  //   curLon = 51.667983;
 		$scope.updateStores(1);
 		}, function(error) {
 		  $scope.hide($ionicLoading);
@@ -330,7 +357,8 @@ angular.module('starter.controllers', [])
     	
     	.success(function (data) { 
     		if (data.length > 0) {
-				$scope.stores = data;
+				// $scope.stores = data;
+				$scope.stores = sortByKey(data, 'distance');
 			}
 			else {
 				$scope.errors = [{'error':'no_store_found'}];
