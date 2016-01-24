@@ -5,12 +5,9 @@
   		<input type="search" placeholder="Search" ng-model="search" ng-change="filter(search)">
 	</label>
     <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="brand in brands track by $index" type="item-text-wrap" href="#/tab/stores/{{brand.index}}">
+      <ion-item class="item-remove-animate item-avatar item-icon-right item-thumbnail-left" ng-repeat="brand in brands track by $index" type="item-text-wrap" href="#/tab/stores/{{brand.index}}">
         <img ng-src="pics/logos/{{brand.name.toLowerCase()| removeSpaces}}.png">
-       	<p> </p>
-    	<p> </p>
-       	<p> </p>
-    	<p> </p>
+       	<p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
        	<span class="item-note">
        	{{brand.name}}
        	</span>     		 
