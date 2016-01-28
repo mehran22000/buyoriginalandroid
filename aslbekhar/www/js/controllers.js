@@ -324,7 +324,7 @@ angular.module('starter.controllers', [])
         	var x = a[key]; var y = b[key];
         		return ((parseFloat(x) < parseFloat(y)) ? -1 : ((parseFloat(x) > parseFloat(y)) ? 1 : 0));
     });
-}
+	}
 	
 	
 	$scope.show = function() {
@@ -341,9 +341,9 @@ angular.module('starter.controllers', [])
 
 	navigator.geolocation.getCurrentPosition(function(pos) {
 		   curLat = pos.coords.latitude;
-	   //  curLat = 32.654627;
-		   curLon = pos.coords.longitude;
-	  //   curLon = 51.667983;
+	    //   curLat = 32.654627;
+	   	   curLon = pos.coords.longitude;
+	   //    curLon = 51.667983;
 		$scope.updateStores(1);
 		}, function(error) {
 		  $scope.hide($ionicLoading);
@@ -391,11 +391,19 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
   	};
 	
+	function sortByKey(array, key) {
+    	return array.sort(function(a, b) {
+        	var x = a[key]; var y = b[key];
+        		return ((parseFloat(x) < parseFloat(y)) ? -1 : ((parseFloat(x) > parseFloat(y)) ? 1 : 0));
+    });
+	}
+	
+	
 	$scope.show($ionicLoading);
 	navigator.geolocation.getCurrentPosition(function(pos) {
 		
 		curLat = pos.coords.latitude;
-		// curLat = 35.808915;
+	    // curLat = 35.808915;
 		curLon = pos.coords.longitude;
 		// curLon = 51.442341;
 		$scope.updateStores(5);
@@ -410,7 +418,8 @@ angular.module('starter.controllers', [])
     	
     	.success(function (data) { 
 			if (data.length > 0) {
-				$scope.stores = data;
+			//	$scope.stores = data;
+				$scope.stores = sortByKey(data, 'distance');
 			}
 			else {
 				$scope.errors = [{'error':'no_store_found'}];

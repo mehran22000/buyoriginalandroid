@@ -1,4 +1,7 @@
 <ion-view view-title="تخفیف ها">
+ <ion-nav-bar class="bar-positive">
+    <ion-nav-back-button></ion-nav-back-button>
+  </ion-nav-bar>
   <ion-content>
    <div class="item range">
   		0
@@ -6,12 +9,13 @@
   		15 Km
   </div>
    <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="store in stores track by $index" type="item-text-wrap" href="#/tab/deals/store/{{$index}}">
+      <ion-item class="item-remove-animate item-avatar item-icon-right item-thumbnail-left" ng-repeat="store in stores track by $index" type="item-text-wrap" href="#/tab/deals/store/{{$index}}">
         <img ng-src="pics/logos/{{store.bName.toLowerCase()| removeSpaces}}.png">
+            <p></p><p></p><p></p><p></p>
        		 <div class="text text-right">
         	 <h2> {{store.bName}} </h2>
        		 <p> {{store.bCategory}} </p>
-       		 <p> {{store.distance}} </p>
+       		 <p> {{store.distance}} Km </p>
        		 <i class="icon ion-chevron-right icon-accessory"></i>
        		 </div>
 	    
