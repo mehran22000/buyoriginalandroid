@@ -1,10 +1,26 @@
 angular.module('starter.controllers', [])
 
-// .controller('DashCtrl', function($scope) {})
+.directive('hideTabs', function($rootScope) {
+    console.log('hideTabs directive');
+    return {
+        restrict: 'A',
+        link: function(scope, element, attributes) {
+            scope.$watch(attributes.hideTabs, function(value){
+                $rootScope.hideTabs = value;
+            });
+
+            scope.$on('$destroy', function() {
+                $rootScope.hideTabs = false;
+            });
+        }
+    };
+})
+
 
 .controller('CityCtrl', function($scope, CityFactory) {
   
   $scope.cities = CityFactory.all();
+  analytics.trackView('City Screen Launched');
   
   $scope.filter = function (search) {
       console.log('CityCtrl.filter');
@@ -26,10 +42,10 @@ angular.module('starter.controllers', [])
   	}
 })
 
-
-
 .controller('FetcherCtrl', function($scope, $http, $stateParams, StoreFetcher, CategoryFactory, $ionicLoading, $timeout) {
  	console.log('FetcherCtrl='+$stateParams.cityAreaCode);
+ 	
+ 	analytics.trackView('City'+$stateParams.cityAreaCode);
  	
  	$scope.adImageUrl = 'https://buyoriginal.herokuapp.com/images/ads/ad.'+$stateParams.cityAreaCode.toString()+'.png';
  	console.log($scope.adImageUrl);
@@ -41,7 +57,7 @@ angular.module('starter.controllers', [])
  	// Spinner
     $scope.show = function() {
     	$ionicLoading.show({
-      	template: '<p> ... بارگزاری</p><ion-spinner icon="lines"></ion-spinner>'
+      	template: '<ion-spinner class="spinner-energized" icon="lines"></ion-spinner>'
     		});
   	};
 
@@ -67,6 +83,7 @@ angular.module('starter.controllers', [])
  	if ($scope.imageExist($scope.adImageUrl)) {
  		$scope.adHidden = false;
  		isAdAvailable = true;
+ 		analytics.trackView('Ad:'+$scope.adImageUrl);
  		console.log('ad exists');
  	}
  	else {
@@ -84,7 +101,7 @@ angular.module('starter.controllers', [])
  			console.log('isDataReady');
  			window.location.href = '#/tab/category/'+$stateParams.cityAreaCode;
  		}
- 	}, 2000);
+ 	}, 3000);
  	
  	// First try Offline Data
  	var offline = null;
@@ -145,7 +162,7 @@ angular.module('starter.controllers', [])
  	$scope.stores = CategoryFactory.getStores();
  	$scope.categories = CategoryFactory.getCategories();
     $scope.cityAreaCode = $stateParams.cityAreaCode;
-  	
+    
     $scope.filter = function (search) {
       console.log(search);
       var allCategories = CategoryFactory.getCategories();
@@ -192,7 +209,7 @@ angular.module('starter.controllers', [])
  	
  	$scope.show = function() {
     	$ionicLoading.show({
-      	template: '<p> ... بارگزاری</p><ion-spinner icon="lines"></ion-spinner>'
+      	template: '<ion-spinner class="spinner-energized" icon="lines"></ion-spinner>'
     		});
   	};
 
@@ -202,11 +219,12 @@ angular.module('starter.controllers', [])
   	
   	if ($scope.imageExist($scope.adImageUrl)) {
   		console.log('Category exists ');
+  		analytics.trackView('Ad:'+$scope.adImageUrl);
  		$scope.show($ionicLoading);
  		$scope.adHidden = false;
  		$timeout(function(){$scope.hide($ionicLoading);
  				window.location.href = '#/tab/brands/'+$stateParams.catIndex.toString();
- 			}, 2000);
+ 			}, 3000);
  	}
  	else {
  		$scope.adHidden = true;
@@ -218,9 +236,10 @@ angular.module('starter.controllers', [])
 
  .controller('BrandCtrl', function($scope, $stateParams, CategoryFactory, BrandFactory) {
  	console.log('category='+$stateParams.catIndex);
- 
+ 	
  	var categories = CategoryFactory.getCategories();
  	var categoryName = categories[$stateParams.catIndex].name; 	
+ 	analytics.trackView('Category:'+categoryName);
  	var catStores = CategoryFactory.getCatStores();
  	var categoryStores = catStores[categoryName];
  	$scope.brands = BrandFactory.all(categoryStores);
@@ -329,7 +348,7 @@ angular.module('starter.controllers', [])
 	
 	$scope.show = function() {
     	$ionicLoading.show({
-      	template: '<p> ... بارگزاری</p><ion-spinner icon="lines"></ion-spinner>'
+      	template: '<ion-spinner class="spinner-energized" icon="lines"></ion-spinner>'
     		});
   	};
 
@@ -340,10 +359,10 @@ angular.module('starter.controllers', [])
  	$scope.show($ionicLoading);
 
 	navigator.geolocation.getCurrentPosition(function(pos) {
-		   curLat = pos.coords.latitude;
-	    //   curLat = 32.654627;
+		  curLat = pos.coords.latitude;
+	    //  curLat = 32.654627;
 	   	   curLon = pos.coords.longitude;
-	   //    curLon = 51.667983;
+	    //   curLon = 51.667983;
 		$scope.updateStores(1);
 		}, function(error) {
 		  $scope.hide($ionicLoading);
@@ -380,10 +399,11 @@ angular.module('starter.controllers', [])
 	var curLat = 0;
 	var curLon = 0;
 	$scope.distance = 5;
+	analytics.trackView('Deals Loaded');
 	
 	$scope.show = function() {
     	$ionicLoading.show({
-      	template: '<p> ... بارگزاری</p><ion-spinner icon="lines"></ion-spinner>'
+      	template: '<ion-spinner class="spinner-energized" icon="lines"></ion-spinner>'
     		});
   	};
 
@@ -440,6 +460,7 @@ angular.module('starter.controllers', [])
 .controller('NearmeStoreDetailsCtrl', function($scope, $stateParams, StoreFactory) {
  	$scope.nearStore = StoreFactory.getNearmeStore($stateParams.storeIndex);
  	console.log($scope.nearStore);
+ 	analytics.trackView('NearMe Loaded');
  })
  
  .controller('AdCtrl', function($scope, $stateParams) {

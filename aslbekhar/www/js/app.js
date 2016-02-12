@@ -12,6 +12,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','f
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     
+     if(typeof analytics !== undefined) {
+            analytics.startTrackerWithId("UA-64002918-1");
+            console.log("Google Analytics available");
+            analytics.trackView('App Launched');
+     } else {
+            console.log("Google Analytics Unavailable");
+     }
+    
+    
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
